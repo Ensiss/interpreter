@@ -23,6 +23,6 @@ node src/main expr
    - [x] Nested parenthesis
    - [x] Floating point numbers
    - [x] Modulo operator
-   - [ ] Power operator
+   - [x] Power operator
    - [ ] Math functions call
    - [ ] Variables
