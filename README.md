@@ -21,7 +21,7 @@ node src/main expr
    - [x] Operator predecence
    - [x] Parenthesis
    - [x] Nested parenthesis
-   - [ ] Floating point numbers
+   - [x] Floating point numbers
    - [ ] Modulo operator
    - [ ] Power operator
    - [ ] Math functions call
