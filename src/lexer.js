@@ -1,15 +1,66 @@
 "use strict";
 
-var lexeme_list = [{name:"LX_LPAREN", rx:'\\('},
-		   {name:"LX_RPAREN", rx:'\\)'},
-		   {name:"LX_NUMBER", rx:'[0-9]+(\\.[0-9]*)?'},
-		   {name:"LX_POW", rx:'\\*\\*'},
-		   {name:"LX_PLUS", rx:'\\+'},
-		   {name:"LX_MINUS", rx:'-'},
-		   {name:"LX_MULT", rx:'\\*'},
-		   {name:"LX_DIV", rx:'/'},
-		   {name:"LX_MODULO", rx:'%'}
-		  ];
+var lexeme_list = [
+    // Keywords
+    {name:"LX_IF", rx:'if(?![a-zA-Z0-9_])'},
+    {name:"LX_ELSE", rx:'else(?![a-zA-Z0-9_])'},
+    {name:"LX_WHILE", rx:'while(?![a-zA-Z0-9_])'},
+    {name:"LX_FOR", rx:'for(?![a-zA-Z0-9_])'},
+    {name:"LX_FUNC", rx:'function(?![a-zA-Z0-9_])'},
+    {name:"LX_VAR", rx:'var(?![a-zA-Z0-9_])'},
+    {name:"LX_RETURN", rx:'return(?![a-zA-Z0-9_])'},
+
+    // Constants
+    {name:"LX_ID", rx:'[a-zA-Z_][a-zA-Z0-9_]*'},
+    {name:"LX_NUMBER", rx:'[0-9]+(\\.[0-9]*)?'},
+    {name:"LX_STRING", rx:'"(\\\\"|[^"])*"|' + "'(\\\\'|[^'])*'"},
+
+    // Punctuation
+    {name:"LX_LPAREN", rx:'\\('},
+    {name:"LX_RPAREN", rx:'\\)'},
+    {name:"LX_LCURLY", rx:'\\{'},
+    {name:"LX_RCURLY", rx:'\\}'},
+    {name:"LX_LBRACKET", rx:'\\['},
+    {name:"LX_RBRACKET", rx:'\\]'},
+    {name:"LX_SEMICOLON", rx:';'},
+    {name:"LX_COLON", rx:':'},
+    {name:"LX_COMMA", rx:','},
+    {name:"LX_DOT", rx:'\\.'},
+
+    // Comparison
+    {name:"LX_EQ", rx:'=='},
+    {name:"LX_NEQ", rx:'!='},
+    {name:"LX_LE", rx:'<='},
+    {name:"LX_GE", rx:'>='},
+    {name:"LX_LT", rx:'<'},
+    {name:"LX_GT", rx:'>'},
+
+    // Assignment
+    {name:"LX_ASSIGN", rx:'='},
+
+    // Logical
+    {name:"LX_LAND", rx:'&&'},
+    {name:"LX_LOR", rx:'\\|\\|'},
+    {name:"LX_LNOT", rx:'!'},
+
+    // Binary
+    {name:"LX_AND", rx:'&'},
+    {name:"LX_OR", rx:'\\|'},
+    {name:"LX_XOR", rx:'\\^'},
+    {name:"LX_NOT", rx:'~'},
+    {name:"LX_LSHIFT", rx:'<<'},
+    {name:"LX_RSHIFT", rx:'>>'},
+
+    // Operators
+    {name:"LX_INC", rx:'\\+\\+'},
+    {name:"LX_DEC", rx:'--'},
+    {name:"LX_POW", rx:'\\*\\*'},
+    {name:"LX_PLUS", rx:'\\+'},
+    {name:"LX_MINUS", rx:'-'},
+    {name:"LX_MULT", rx:'\\*'},
+    {name:"LX_DIV", rx:'/'},
+    {name:"LX_MODULO", rx:'%'}
+];
 
 function lexer(stream) {
     var lexemes = [];
