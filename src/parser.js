@@ -61,14 +61,14 @@ var parser = (function () {
 	return (node);
     }
 
-    /* term: factor (("*"|"/") factor)*
+    /* term: factor (("*"|"/"|"%") factor)*
      */
     function ruleTerm() {
 	var node;
 	var parent;
 
 	node = ruleFactor();
-	while (accept(["LX_MULT", "LX_DIV"])) {
+	while (accept(["LX_MULT", "LX_DIV", "LX_MODULO"])) {
 	    parent = {name:_curr.name, children:[node]};
 	    shift();
 	    parent.children.push(ruleFactor());

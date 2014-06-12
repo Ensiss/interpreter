@@ -6,7 +6,8 @@ var lexeme_list = [{name:"LX_LPAREN", rx:'\\('},
 		   {name:"LX_PLUS", rx:'\\+'},
 		   {name:"LX_MINUS", rx:'-'},
 		   {name:"LX_MULT", rx:'\\*'},
-		   {name:"LX_DIV", rx:'/'}
+		   {name:"LX_DIV", rx:'/'},
+		   {name:"LX_MODULO", rx:'%'}
 		  ];
 
 function lexer(stream) {

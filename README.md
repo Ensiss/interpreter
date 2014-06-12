@@ -22,7 +22,7 @@ node src/main expr
    - [x] Parenthesis
    - [x] Nested parenthesis
    - [x] Floating point numbers
-   - [ ] Modulo operator
+   - [x] Modulo operator
    - [ ] Power operator
    - [ ] Math functions call
    - [ ] Variables
