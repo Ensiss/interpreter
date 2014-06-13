@@ -10,29 +10,38 @@ var parser = (function () {
 	_err = false;
 	_lex = lexemes;
 	shift();
-	_ast = ruleExpression();
+	// _ast = ruleExpression();
+	_ast = ruleBlock();
 	if (_curr)
 	    error("Unexpected symbol at the end of expression: " + _curr.name);
 	return (_err ? null : _ast);
     }
 
-    /* factor: number
-             | "(" expression ")"
+    /* block: "{" instruction+ "}"
      */
-    function ruleFactor() {
+    function ruleBlock() {
 	var node;
 
-	if (accept("LX_NUMBER")) {
-	    node = {name:_curr.name, val:parseFloat(_curr.val)};
+	if (accept("LX_LCURLY")) {
+	    shift();
+	    node = {name:"LX_BLOCK", children:[]};
+	    do {
+		node.children.push(ruleInstruction());
+	    } while (!accept("LX_RCURLY") && !_err);
 	    shift();
 	}
-	else if (accept("LX_LPAREN")) {
-	    shift();
-	    node = ruleExpression();
-	    if (expect("LX_RPAREN"))
-		shift();
-	} else
-	    error("Can't make rule \"factor\"");
+	else
+	    node = ruleInstruction();
+	return (node);
+    }
+
+    /* instruction: expression ";"
+     */
+    function ruleInstruction() {
+	var node = ruleExpression();
+
+	expect("LX_SEMICOLON");
+	shift();
 	return (node);
     }
 
@@ -77,6 +86,26 @@ var parser = (function () {
 	return (node);
     }
 
+    /* factor: number
+             | "(" expression ")"
+     */
+    function ruleFactor() {
+	var node;
+
+	if (accept("LX_NUMBER")) {
+	    node = {name:_curr.name, val:parseFloat(_curr.val)};
+	    shift();
+	}
+	else if (accept("LX_LPAREN")) {
+	    shift();
+	    node = ruleExpression();
+	    if (expect("LX_RPAREN"))
+		shift();
+	} else
+	    error("Can't make rule \"factor\"");
+	return (node);
+    }
+
     function accept(lx) {
 	if (!_curr)
 	    return (false);
@@ -95,7 +124,10 @@ var parser = (function () {
     function expect(lx) {
 	if (accept(lx))
 	    return (true);
-	error("Expected symbol \"" + lx + "\" but got \"" + _curr.name + "\"");
+	if (_curr)
+	    error("Expected symbol \"" + lx + "\" but got \"" + _curr.name + "\"");
+	else
+	    error("Expected symbol \"" + lx + "\"");
 	return (false);
     }
 
