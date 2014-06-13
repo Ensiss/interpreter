@@ -10,7 +10,6 @@ var parser = (function () {
 	_err = false;
 	_lex = lexemes;
 	shift();
-	// _ast = ruleExpression();
 	_ast = ruleBlock();
 	if (_curr)
 	    error("Unexpected symbol at the end of expression: " + _curr.name);
@@ -26,7 +25,7 @@ var parser = (function () {
 	    shift();
 	    node = {name:"LX_BLOCK", children:[]};
 	    do {
-		node.children.push(ruleInstruction());
+		node.children.push(ruleBlock());
 	    } while (!accept("LX_RCURLY") && !_err);
 	    shift();
 	}
@@ -35,74 +34,109 @@ var parser = (function () {
 	return (node);
     }
 
-    /* instruction: expression ";"
+    /* instruction: assign ";"
      */
     function ruleInstruction() {
-	var node = ruleExpression();
+	var node = ruleAssign();
 
-	expect("LX_SEMICOLON");
+	if (!node)
+	    return (false);
+	if (!expect("LX_SEMICOLON"))
+	    return (false);
 	shift();
 	return (node);
     }
 
-    /* expression: ("-"|"+")? term (("-"|"+") term)*
+    /* assign: (id "=")? plusMinus
      */
-    function ruleExpression() {
+    function ruleAssign() {
 	var parent;
 	var node;
+	var tmp;
+
+	if (accept("LX_ID") && _lex[0].name == "LX_ASSIGN") {
+	    node = {name:_lex[0].name, children:[]};
+	    node.children.push({name:_curr.name, val:_curr.val});
+	    shift();
+	    shift();
+	    if (!(tmp = rulePlusMinus()))
+		return (false);
+	    node.children.push(tmp);
+	} else if (!(node = rulePlusMinus()))
+	    return (false);
+	return (node);
+    }
+
+    /* plusminus: ("-"|"+")? multDiv (("-"|"+") multDiv)*
+     */
+    function rulePlusMinus() {
+	var parent;
+	var node;
+	var tmp;
 
 	if (accept("LX_MINUS")) {
 	    node = {name:_curr.name, children:[]};
 	    node.children.push({name:"LX_NUMBER", val:0});
 	    shift();
-	    node.children.push(ruleTerm());
+	    if (!(tmp = ruleMultDiv()))
+		return (false);
+	    node.children.push(tmp);
 	} else {
 	    if (accept("LX_PLUS"))
 		shift();
-	    node = ruleTerm();
+	    if (!(node = ruleMultDiv()))
+		return (false);
 	}
 	while (accept(["LX_PLUS", "LX_MINUS"])) {
 	    parent = {name:_curr.name, children:[node]};
 	    shift();
-	    parent.children.push(ruleTerm());
+	    if (!(tmp = ruleMultDiv()))
+		return (false);
+	    parent.children.push(tmp);
 	    node = parent;
 	}
 	return (node);
     }
 
-    /* term: factor (("*"|"/"|"%"|"**") factor)*
+    /* multdiv: base (("*"|"/"|"%"|"**") base)*
      */
-    function ruleTerm() {
+    function ruleMultDiv() {
 	var node;
 	var parent;
+	var tmp;
 
-	node = ruleFactor();
+	node = ruleBase();
 	while (accept(["LX_MULT", "LX_DIV", "LX_MODULO", "LX_POW"])) {
 	    parent = {name:_curr.name, children:[node]};
 	    shift();
-	    parent.children.push(ruleFactor());
+	    if (!(tmp = ruleBase()))
+		return (false);
+	    parent.children.push(tmp);
 	    node = parent;
 	}
 	return (node);
     }
 
-    /* factor: number
-             | "(" expression ")"
+    /* base: number
+           | id
+           | "(" expression ")"
      */
-    function ruleFactor() {
-	var node;
+    function ruleBase() {
+	var node = false;
 
 	if (accept("LX_NUMBER")) {
 	    node = {name:_curr.name, val:parseFloat(_curr.val)};
 	    shift();
-	}
-	else if (accept("LX_LPAREN")) {
+	} else if (accept("LX_ID")) {
+	    node = {name:_curr.name, val:_curr.val};
 	    shift();
-	    node = ruleExpression();
+	} else if (accept("LX_LPAREN")) {
+	    shift();
+	    node = ruleAssign();
 	    if (expect("LX_RPAREN"))
 		shift();
 	} else
-	    error("Can't make rule \"factor\"");
+	    error("Can't make rule \"base\"");
 	return (node);
     }
 
