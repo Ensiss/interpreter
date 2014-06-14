@@ -11,10 +11,12 @@ var interpreter = (function () {
 		  LX_DIV: function(c) { return (interpretExpr(c[0]) / interpretExpr(c[1])); },
 		  LX_MODULO: function(c) { return (interpretExpr(c[0]) % interpretExpr(c[1])); },
 		  LX_BLOCK: function(c) {
+		      var val;
 		      pushScope();
 		      for (var i in c)
-			  interpretExpr(c[i]);
+			  val = interpretExpr(c[i]);
 		      popScope();
+		      return (val);
 		  },
 		  LX_ASSIGN: function(c) {
 		      var val = interpretExpr(c[1]);
