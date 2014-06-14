@@ -24,8 +24,7 @@ node test
    - [x] Code blocks
    - [x] Variables and identifiers
    - [x] Multiple instructions
-   - [ ] if (cond) {}
-   - [ ] else
+   - [x] if/else branching
    - [ ] loops
    - [ ] Custom functions
 

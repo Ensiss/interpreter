@@ -41,7 +41,31 @@ var parser = (function () {
 	    shift();
 	}
 	else
-	    node = ruleInstruction();
+	    node = ruleIf() || ruleInstruction();
+	return (node);
+    }
+
+    /* if: "if" "(" assign ")" block
+     */
+    function ruleIf() {
+	var node = false;
+
+	if (accept("LX_IF")) {
+	    node = {name:_curr.name, children:[]};
+	    shift();
+	    if (!expect("LX_LPAREN"))
+		return (false);
+	    shift();
+	    node.children.push(ruleAssign());
+	    if (!expect("LX_RPAREN"))
+		return (false);
+	    shift();
+	    node.children.push(ruleBlock());
+	    if (accept("LX_ELSE")) {
+		shift();
+		node.children.push(ruleBlock());
+	    }
+	}
 	return (node);
     }
 
@@ -50,9 +74,7 @@ var parser = (function () {
     function ruleInstruction() {
 	var node = ruleAssign();
 
-	if (!node)
-	    return (false);
-	if (!expect("LX_SEMICOLON"))
+	if (!node || !expect("LX_SEMICOLON"))
 	    return (false);
 	shift();
 	return (node);

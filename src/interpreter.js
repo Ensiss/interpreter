@@ -56,6 +56,12 @@ var interpreter = (function () {
 			  val = interpretExpr(c[i]);
 		      popScope();
 		      return (val);
+		  },
+
+		  LX_IF: function(c) {
+		      if (interpretExpr(c[0]))
+			  return (interpretExpr(c[1]));
+		      return (c.length == 2 ? null : interpretExpr(c[2]));
 		  }
 		 }
 
