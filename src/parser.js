@@ -7,8 +7,12 @@ var parser = (function () {
     var _ast;
     var _precedence = [{lx:"LX_LOR"},
 		       {lx:"LX_LAND"},
+		       {lx:"LX_OR"},
+		       {lx:"LX_XOR"},
+		       {lx:"LX_AND"},
 		       {lx:["LX_EQ", "LX_NEQ"]},
 		       {lx:["LX_LE", "LX_LT", "LX_GE", "LX_GT"]},
+		       {lx:["LX_LSHIFT", "LX_RSHIFT"]},
 		       {lx:["LX_PLUS", "LX_MINUS"]},
 		       {lx:["LX_MULT", "LX_DIV", "LX_MODULO"]},
 		       {lx:"LX_POW", func:ruleUnary}];
@@ -108,7 +112,7 @@ var parser = (function () {
 	    if (!(tmp = ruleBase()))
 		return (false);
 	    node.children.push(tmp);
-	} else if (accept("LX_LNOT")) {
+	} else if (accept(["LX_LNOT", "LX_NOT"])) {
 	    node = {name:_curr.name, children:[]};
 	    shift();
 	    if (!(tmp = ruleBase()))

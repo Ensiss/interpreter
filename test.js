@@ -46,6 +46,14 @@ function doTests() {
     test("logical not", "!5;");
     test("logical not", "!0;");
 
+    console.log("\nBitwise operators");
+    test("bitwise and", "65421 & 255;");
+    test("bitwise or", "65421 | 255;");
+    test("bitwise xor", "65421 ^ 255;");
+    test("bitwise not", "~65421;");
+    test("bitwise left shift", "21 << 1;");
+    test("bitwise right shift", "42 >> 2;");
+
     console.log("\nComparison");
     test("equality", "1 == 1;");
     test("equality", "1 == 5;");

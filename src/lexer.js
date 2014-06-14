@@ -27,21 +27,9 @@ var lexeme_list = [
     {name:"LX_COMMA", rx:','},
     {name:"LX_DOT", rx:'\\.'},
 
-    // Comparison
-    {name:"LX_EQ", rx:'=='},
-    {name:"LX_NEQ", rx:'!='},
-    {name:"LX_LE", rx:'<='},
-    {name:"LX_GE", rx:'>='},
-    {name:"LX_LT", rx:'<'},
-    {name:"LX_GT", rx:'>'},
-
-    // Assignment
-    {name:"LX_ASSIGN", rx:'='},
-
     // Logical
     {name:"LX_LAND", rx:'&&'},
     {name:"LX_LOR", rx:'\\|\\|'},
-    {name:"LX_LNOT", rx:'!'},
 
     // Binary
     {name:"LX_AND", rx:'&'},
@@ -50,6 +38,20 @@ var lexeme_list = [
     {name:"LX_NOT", rx:'~'},
     {name:"LX_LSHIFT", rx:'<<'},
     {name:"LX_RSHIFT", rx:'>>'},
+
+    // Comparison
+    {name:"LX_EQ", rx:'=='},
+    {name:"LX_NEQ", rx:'!='},
+    {name:"LX_LE", rx:'<='},
+    {name:"LX_GE", rx:'>='},
+    {name:"LX_LT", rx:'<'},
+    {name:"LX_GT", rx:'>'},
+
+    // Logical not
+    {name:"LX_LNOT", rx:'!'},
+
+    // Assignment
+    {name:"LX_ASSIGN", rx:'='},
 
     // Operators
     {name:"LX_INC", rx:'\\+\\+'},

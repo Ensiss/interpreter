@@ -34,6 +34,6 @@ node src/main expr
    - [x] Variables
    - [x] Logical operators
    - [x] Comparison operators
+   - [x] Binary operators
    - [ ] Increment and decrement
-   - [ ] Binary operators
    - [ ] Math functions call
