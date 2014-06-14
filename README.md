@@ -19,6 +19,9 @@ node src/main expr
    - [x] Code blocks
    - [x] Variables and identifiers
    - [x] Multiple instructions
+   - [ ] if (cond) {}
+   - [ ] else
+   - [ ] Custom functions
 
  - [ ] Mathematical expressions
    - [x] Base operators (+-*/)
@@ -31,7 +34,6 @@ node src/main expr
    - [x] Variables
    - [x] Logical operators
    - [x] Comparison operators
-   - [ ] Logical not
    - [ ] Increment and decrement
    - [ ] Binary operators
    - [ ] Math functions call

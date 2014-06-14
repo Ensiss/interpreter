@@ -11,9 +11,9 @@ function test(title, expr, res) {
 	var res = eval(expr);
 
     if (res == calc)
-	console.log(" ok");
+	console.log(" [32mok[0m");
     else {
-	console.log(" ko: " + expr + " returned '" + calc + "' instead of '" + res + "'");
+	console.log(" [31mko[0m: " + expr + " returned '" + calc + "' instead of '" + res + "'");
     }
 }
 
@@ -43,6 +43,8 @@ function doTests() {
     test("logical or", "5 || 0;");
     test("logical or", "0 || 0;");
     test("logical or", "5 || 7;");
+    test("logical not", "!5;");
+    test("logical not", "!0;");
 
     console.log("\nComparison");
     test("equality", "1 == 1;");
@@ -53,6 +55,12 @@ function doTests() {
     test("inferiority", "1 < -5;");
     test("superiority", "1 > 5;");
     test("superiority", "1 > -5;");
+    test("inferior or equality", "1 <= 5;");
+    test("inferior or equality", "1 <= -5;");
+    test("inferior or equality", "1 <= 1;");
+    test("superior or equality", "1 >= 5;");
+    test("superior or equality", "1 >= -5;");
+    test("superior or equality", "1 >= 1;");
 
     console.log("\nMixed expressions");
     test("complex expressions", "1+4/5*4+51+(4*(945+94/748)+44+2)+56;");

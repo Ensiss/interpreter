@@ -142,19 +142,7 @@ var parser = (function () {
 	var node;
 	var tmp;
 
-	if (accept("LX_MINUS")) {
-	    node = {name:_curr.name, children:[]};
-	    node.children.push({name:"LX_NUMBER", val:0});
-	    shift();
-	    if (!(tmp = ruleMultDiv()))
-		return (false);
-	    node.children.push(tmp);
-	} else {
-	    if (accept("LX_PLUS"))
-		shift();
-	    if (!(node = ruleMultDiv()))
-		return (false);
-	}
+	node = ruleMultDiv();
 	while (accept(["LX_PLUS", "LX_MINUS"])) {
 	    parent = {name:_curr.name, children:[node]};
 	    shift();
@@ -173,14 +161,40 @@ var parser = (function () {
 	var parent;
 	var tmp;
 
-	node = ruleBase();
+	node = ruleUnary();
 	while (accept(["LX_MULT", "LX_DIV", "LX_MODULO", "LX_POW"])) {
 	    parent = {name:_curr.name, children:[node]};
 	    shift();
-	    if (!(tmp = ruleBase()))
+	    if (!(tmp = ruleUnary()))
 		return (false);
 	    parent.children.push(tmp);
 	    node = parent;
+	}
+	return (node);
+    }
+
+    function ruleUnary() {
+	var node;
+	var tmp;
+
+	if (accept("LX_MINUS")) {
+	    node = {name:_curr.name, children:[]};
+	    node.children.push({name:"LX_NUMBER", val:0});
+	    shift();
+	    if (!(tmp = ruleBase()))
+		return (false);
+	    node.children.push(tmp);
+	} else if (accept("LX_LNOT")) {
+	    node = {name:_curr.name, children:[]};
+	    shift();
+	    if (!(tmp = ruleBase()))
+		return (false);
+	    node.children.push(tmp);
+	} else {
+	    if (accept("LX_PLUS"))
+		shift();
+	    if (!(node = ruleBase()))
+		return (false);
 	}
 	return (node);
     }
