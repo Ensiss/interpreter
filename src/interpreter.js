@@ -10,6 +10,8 @@ var interpreter = (function () {
 		  LX_MULT: function(c) { return (interpretExpr(c[0]) * interpretExpr(c[1])); },
 		  LX_DIV: function(c) { return (interpretExpr(c[0]) / interpretExpr(c[1])); },
 		  LX_MODULO: function(c) { return (interpretExpr(c[0]) % interpretExpr(c[1])); },
+		  LX_INC: function(c) { return (setValue(c[0].val, getValue(c[0].val) + 1)); },
+		  LX_DEC: function(c) { return (setValue(c[0].val, getValue(c[0].val) - 1)); },
 
 		  LX_OR: function(c) { return (interpretExpr(c[0]) | interpretExpr(c[1])); },
 		  LX_XOR: function(c) { return (interpretExpr(c[0]) ^ interpretExpr(c[1])); },
@@ -72,10 +74,11 @@ var interpreter = (function () {
 	for (var i = _scopeStack.length - 1; i >= 0; i--) {
 	    if (_scopeStack[i][name] != undefined) {
 		_scopeStack[i][name] = val;
-		return;
+		return (val);
 	    }
 	}
 	_this[name] = val;
+	return (val);
     }
 
     function getValue(name) {

@@ -100,6 +100,7 @@ var parser = (function () {
     }
 
     /* unary: [+-!] base
+            | (--|++) id
      */
     function ruleUnary() {
 	var node;
@@ -118,6 +119,13 @@ var parser = (function () {
 	    if (!(tmp = ruleBase()))
 		return (false);
 	    node.children.push(tmp);
+	} else if (accept(["LX_INC", "LX_DEC"])) {
+	    node = {name:_curr.name, children:[]};
+	    shift();
+	    if (!expect("LX_ID"))
+		return (false);
+	    node.children.push({name:_curr.name, val:_curr.val});
+	    shift();
 	} else {
 	    if (accept("LX_PLUS"))
 		shift();

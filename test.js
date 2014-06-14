@@ -33,6 +33,10 @@ function doTests() {
     test("blocks", "{1 + 2; 2 * 3;}");
     test("variables", "{a = 5 + 2; a;}");
     test("scopes", "{ {a = 5;} a;}", null);
+    test("increment", "{a = 5; --a; a;}");
+    test("increment", "{a = 5; --a;}");
+    test("decrement", "{a = 5; ++a; a;}");
+    test("decrement", "{a = 5; ++a;}");
 
     console.log("\nLogical operators");
     test("logical and", "0 && 5;");

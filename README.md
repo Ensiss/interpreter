@@ -6,8 +6,13 @@ Because why not ?
 
 ## How to launch
 
-```js
-node src/main expr
+To interpret a source code file just pass it to main.js like this:
+```shell
+node main expr
+```
+If you made changes to the project and want to check if you didn't break everything in the process, just type:
+```shell
+node test
 ```
 
 ## Current state of the project
@@ -21,6 +26,7 @@ node src/main expr
    - [x] Multiple instructions
    - [ ] if (cond) {}
    - [ ] else
+   - [ ] loops
    - [ ] Custom functions
 
  - [ ] Mathematical expressions
@@ -35,5 +41,7 @@ node src/main expr
    - [x] Logical operators
    - [x] Comparison operators
    - [x] Binary operators
-   - [ ] Increment and decrement
+   - [x] Increment and decrement
+   - [ ] Post increment and decrement
+   - [ ] Operation and assignment operators
    - [ ] Math functions call
