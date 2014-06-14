@@ -65,7 +65,9 @@ var parser = (function () {
 	var node;
 	var tmp;
 
-	if (accept("LX_ID") && _lex[0].name == "LX_ASSIGN") {
+	if (accept("LX_ID") &&
+	    ["ASSIGN", "PLUSSET", "MINUSSET", "MULTSET", "DIVSET", "MODULOSET", "ANDSET",
+	     "ORSET", "XORSET", "LSHIFTSET", "RSHIFTSET"].indexOf(_lex[0].name.substr(3)) >= 0) {
 	    node = {name:_lex[0].name, children:[]};
 	    node.children.push({name:_curr.name, val:_curr.val});
 	    shift();

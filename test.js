@@ -5,7 +5,7 @@ var interpreter = require("./src/interpreter");
 "use strict";
 
 function test(title, expr, res) {
-    process.stdout.write("Testing " + title + "...");
+    process.stdout.write("\tTesting " + title + "...");
     var calc = interpreter(parser(lexer(expr)));
     if (res === undefined)
 	var res = eval(expr);
@@ -31,12 +31,22 @@ function doTests() {
 
     console.log("\nBlocks and variables");
     test("blocks", "{1 + 2; 2 * 3;}");
-    test("variables", "{a = 5 + 2; a;}");
     test("scopes", "{ {a = 5;} a;}", null);
-    test("increment", "{a = 5; --a; a;}");
+
+    console.log("\nVariable assignation");
+    test("assign", "{a = 5 + 2; a;}");
     test("increment", "{a = 5; --a;}");
-    test("decrement", "{a = 5; ++a; a;}");
     test("decrement", "{a = 5; ++a;}");
+    test("add and assign", "{a = 5 + 2; a += 2;}");
+    test("subtract and assign", "{a = 5 + 2; a -= 2;}");
+    test("multiply and assign", "{a = 5 + 2; a *= 2;}");
+    test("divide and assign", "{a = 5 + 2; a /= 2;}");
+    test("modulo and assign", "{a = 5 + 2; a %= 2;}");
+    test("bitwise and and assign", "{a = 5 + 2; a &= 2;}");
+    test("bitwise or and assign", "{a = 5 + 2; a |= 2;}");
+    test("bitwise xor and assign", "{a = 5 + 2; a ^= 2;}");
+    test("left shift and assign", "{a = 5 + 2; a <<= 2;}");
+    test("right shift and assign", "{a = 5 + 5; a >>= 2;}");
 
     console.log("\nLogical operators");
     test("logical and", "0 && 5;");

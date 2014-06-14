@@ -27,6 +27,18 @@ var interpreter = (function () {
 		  LX_GT: function(c) { return (interpretExpr(c[0]) > interpretExpr(c[1])); },
 		  LX_GE: function(c) { return (interpretExpr(c[0]) >= interpretExpr(c[1])); },
 
+		  LX_ASSIGN: function(c) { return (setValue(c[0].val, interpretExpr(c[1]))); },
+		  LX_PLUSSET: function(c) { return (setValue(c[0].val, getValue(c[0].val) + interpretExpr(c[1]))); },
+		  LX_MINUSSET: function(c) { return (setValue(c[0].val, getValue(c[0].val) - interpretExpr(c[1]))); },
+		  LX_MULTSET: function(c) { return (setValue(c[0].val, getValue(c[0].val) * interpretExpr(c[1]))); },
+		  LX_DIVSET: function(c) { return (setValue(c[0].val, getValue(c[0].val) / interpretExpr(c[1]))); },
+		  LX_MODULOSET: function(c) { return (setValue(c[0].val, getValue(c[0].val) % interpretExpr(c[1]))); },
+		  LX_ANDSET: function(c) { return (setValue(c[0].val, getValue(c[0].val) & interpretExpr(c[1]))); },
+		  LX_ORSET: function(c) { return (setValue(c[0].val, getValue(c[0].val) | interpretExpr(c[1]))); },
+		  LX_XORSET: function(c) { return (setValue(c[0].val, getValue(c[0].val) ^ interpretExpr(c[1]))); },
+		  LX_LSHIFTSET: function(c) { return (setValue(c[0].val, getValue(c[0].val) << interpretExpr(c[1]))); },
+		  LX_RSHIFTSET: function(c) { return (setValue(c[0].val, getValue(c[0].val) >> interpretExpr(c[1]))); },
+
 		  LX_LNOT: function(c) { return (interpretExpr(c[0]) ? 0 : 1); },
 		  LX_LOR: function(c) {
 		      var val = interpretExpr(c[0]);
@@ -35,12 +47,6 @@ var interpreter = (function () {
 		  LX_LAND: function(c) {
 		      var val = interpretExpr(c[0]);
 		      return (!val ? val : interpretExpr(c[1]));
-		  },
-
-		  LX_ASSIGN: function(c) {
-		      var val = interpretExpr(c[1]);
-		      setValue(c[0].val, val);
-		      return (val);
 		  },
 
 		  LX_BLOCK: function(c) {

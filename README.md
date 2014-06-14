@@ -42,6 +42,6 @@ node test
    - [x] Comparison operators
    - [x] Binary operators
    - [x] Increment and decrement
+   - [x] Operation and assignment operators
    - [ ] Post increment and decrement
-   - [ ] Operation and assignment operators
    - [ ] Math functions call

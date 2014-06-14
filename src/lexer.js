@@ -31,6 +31,18 @@ var lexeme_list = [
     {name:"LX_LAND", rx:'&&'},
     {name:"LX_LOR", rx:'\\|\\|'},
 
+    // Special assign
+    {name:"LX_PLUSSET", rx:'\\+='},
+    {name:"LX_MINUSSET", rx:'-='},
+    {name:"LX_MULTSET", rx:'\\*='},
+    {name:"LX_DIVSET", rx:'/='},
+    {name:"LX_MODULOSET", rx:'%='},
+    {name:"LX_ANDSET", rx:'&='},
+    {name:"LX_ORSET", rx:'\\|='},
+    {name:"LX_XORSET", rx:'\\^='},
+    {name:"LX_LSHIFTSET", rx:'<<='},
+    {name:"LX_RSHIFTSET", rx:'>>='},
+
     // Binary
     {name:"LX_AND", rx:'&'},
     {name:"LX_OR", rx:'\\|'},
