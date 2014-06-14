@@ -89,8 +89,42 @@ var parser = (function () {
 	var parent;
 	var tmp;
 
-	node = rulePlusMinus();
+	node = ruleEquality();
 	while (accept("LX_LAND")) {
+	    parent = {name:_curr.name, children:[node]};
+	    shift();
+	    if (!(tmp = ruleEquality()))
+		return (false);
+	    parent.children.push(tmp);
+	    node = parent;
+	}
+	return (node);
+    }
+
+    function ruleEquality() {
+	var node;
+	var parent;
+	var tmp;
+
+	node = ruleRelational();
+	while (accept(["LX_EQ", "LX_NEQ"])) {
+	    parent = {name:_curr.name, children:[node]};
+	    shift();
+	    if (!(tmp = ruleRelational()))
+		return (false);
+	    parent.children.push(tmp);
+	    node = parent;
+	}
+	return (node);
+    }
+
+    function ruleRelational() {
+	var node;
+	var parent;
+	var tmp;
+
+	node = rulePlusMinus();
+	while (accept(["LX_LE", "LX_LT", "LX_GE", "LX_GT"])) {
 	    parent = {name:_curr.name, children:[node]};
 	    shift();
 	    if (!(tmp = rulePlusMinus()))

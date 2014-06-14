@@ -29,8 +29,9 @@ node src/main expr
    - [x] Modulo operator
    - [x] Power operator
    - [x] Variables
+   - [x] Logical operators
+   - [x] Comparison operators
+   - [ ] Logical not
    - [ ] Increment and decrement
    - [ ] Binary operators
-   - [ ] Logical operators
-   - [ ] Comparison operators
    - [ ] Math functions call

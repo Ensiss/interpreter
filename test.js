@@ -18,6 +18,7 @@ function test(title, expr, res) {
 }
 
 function doTests() {
+    console.log("Mathematical expressions:");
     test("plus operator", "1 + 1;");
     test("minus operator", "10 - 1;");
     test("multiplication operator", "3 * 5;");
@@ -28,10 +29,12 @@ function doTests() {
     test("negative numbers", "-5;");
     test("parenthesis", "-(1 + 2) * 5;");
 
+    console.log("\nBlocks and variables");
     test("blocks", "{1 + 2; 2 * 3;}");
     test("variables", "{a = 5 + 2; a;}");
     test("scopes", "{ {a = 5;} a;}", null);
 
+    console.log("\nLogical operators");
     test("logical and", "0 && 5;");
     test("logical and", "5 && 0;");
     test("logical and", "0 && 0;");
@@ -41,6 +44,17 @@ function doTests() {
     test("logical or", "0 || 0;");
     test("logical or", "5 || 7;");
 
+    console.log("\nComparison");
+    test("equality", "1 == 1;");
+    test("equality", "1 == 5;");
+    test("inequality", "1 != 1;");
+    test("inequality", "1 != 5;");
+    test("inferiority", "1 < 5;");
+    test("inferiority", "1 < -5;");
+    test("superiority", "1 > 5;");
+    test("superiority", "1 > -5;");
+
+    console.log("\nMixed expressions");
     test("complex expressions", "1+4/5*4+51+(4*(945+94/748)+44+2)+56;");
     test("complex logical", "0 || 45-54/9 && 564 + 485 * 4 || 45 / 6;");
 }

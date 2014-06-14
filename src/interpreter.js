@@ -10,6 +10,12 @@ var interpreter = (function () {
 		  LX_MULT: function(c) { return (interpretExpr(c[0]) * interpretExpr(c[1])); },
 		  LX_DIV: function(c) { return (interpretExpr(c[0]) / interpretExpr(c[1])); },
 		  LX_MODULO: function(c) { return (interpretExpr(c[0]) % interpretExpr(c[1])); },
+		  LX_EQ: function(c) { return (interpretExpr(c[0]) == interpretExpr(c[1])); },
+		  LX_NEQ: function(c) { return (interpretExpr(c[0]) != interpretExpr(c[1])); },
+		  LX_LT: function(c) { return (interpretExpr(c[0]) < interpretExpr(c[1])); },
+		  LX_LE: function(c) { return (interpretExpr(c[0]) <= interpretExpr(c[1])); },
+		  LX_GT: function(c) { return (interpretExpr(c[0]) > interpretExpr(c[1])); },
+		  LX_GE: function(c) { return (interpretExpr(c[0]) >= interpretExpr(c[1])); },
 		  LX_LOR: function(c) {
 		      var val = interpretExpr(c[0]);
 		      return (val ? val : interpretExpr(c[1]));
