@@ -5,6 +5,13 @@ var parser = (function () {
     var _lex;
     var _curr;
     var _ast;
+    var _precedence = [{lx:"LX_LOR"},
+		       {lx:"LX_LAND"},
+		       {lx:["LX_EQ", "LX_NEQ"]},
+		       {lx:["LX_LE", "LX_LT", "LX_GE", "LX_GT"]},
+		       {lx:["LX_PLUS", "LX_MINUS"]},
+		       {lx:["LX_MULT", "LX_DIV", "LX_MODULO"]},
+		       {lx:"LX_POW", func:ruleUnary}];
 
     function parser(lexemes) {
 	_err = false;
@@ -59,94 +66,28 @@ var parser = (function () {
 	    node.children.push({name:_curr.name, val:_curr.val});
 	    shift();
 	    shift();
-	    if (!(tmp = ruleLOr()))
+	    if (!(tmp = operatorPipeline(0)))
 		return (false);
 	    node.children.push(tmp);
-	} else if (!(node = ruleLOr()))
+	} else if (!(node = operatorPipeline(0)))
 	    return (false);
 	return (node);
     }
 
-    function ruleLOr() {
-	var node;
-	var parent;
-	var tmp;
-
-	node = ruleLAnd();
-	while (accept("LX_LOR")) {
-	    parent = {name:_curr.name, children:[node]};
-	    shift();
-	    if (!(tmp = ruleLAnd()))
-		return (false);
-	    parent.children.push(tmp);
-	    node = parent;
-	}
-	return (node);
-    }
-
-    function ruleLAnd() {
-	var node;
-	var parent;
-	var tmp;
-
-	node = ruleEquality();
-	while (accept("LX_LAND")) {
-	    parent = {name:_curr.name, children:[node]};
-	    shift();
-	    if (!(tmp = ruleEquality()))
-		return (false);
-	    parent.children.push(tmp);
-	    node = parent;
-	}
-	return (node);
-    }
-
-    function ruleEquality() {
-	var node;
-	var parent;
-	var tmp;
-
-	node = ruleRelational();
-	while (accept(["LX_EQ", "LX_NEQ"])) {
-	    parent = {name:_curr.name, children:[node]};
-	    shift();
-	    if (!(tmp = ruleRelational()))
-		return (false);
-	    parent.children.push(tmp);
-	    node = parent;
-	}
-	return (node);
-    }
-
-    function ruleRelational() {
-	var node;
-	var parent;
-	var tmp;
-
-	node = rulePlusMinus();
-	while (accept(["LX_LE", "LX_LT", "LX_GE", "LX_GT"])) {
-	    parent = {name:_curr.name, children:[node]};
-	    shift();
-	    if (!(tmp = rulePlusMinus()))
-		return (false);
-	    parent.children.push(tmp);
-	    node = parent;
-	}
-	return (node);
-    }
-
-    /* plusminus: ("-"|"+")? multDiv (("-"|"+") multDiv)*
+    /* Operator pipeline that handles operator precedence
+       via multiple recursions with changing arguments
      */
-    function rulePlusMinus() {
-	var parent;
+    function operatorPipeline(id) {
+	var state = _precedence[id]
 	var node;
+	var parent;
 	var tmp;
 
-	node = ruleMultDiv();
-	while (accept(["LX_PLUS", "LX_MINUS"])) {
+	node = state.func ? state.func() : operatorPipeline(id + 1);
+	while (accept(state.lx)) {
 	    parent = {name:_curr.name, children:[node]};
 	    shift();
-	    if (!(tmp = ruleMultDiv()))
+	    if (!(tmp = (state.func ? state.func() : operatorPipeline(id + 1))))
 		return (false);
 	    parent.children.push(tmp);
 	    node = parent;
@@ -154,25 +95,8 @@ var parser = (function () {
 	return (node);
     }
 
-    /* multdiv: base (("*"|"/"|"%"|"**") base)*
+    /* unary: [+-!] base
      */
-    function ruleMultDiv() {
-	var node;
-	var parent;
-	var tmp;
-
-	node = ruleUnary();
-	while (accept(["LX_MULT", "LX_DIV", "LX_MODULO", "LX_POW"])) {
-	    parent = {name:_curr.name, children:[node]};
-	    shift();
-	    if (!(tmp = ruleUnary()))
-		return (false);
-	    parent.children.push(tmp);
-	    node = parent;
-	}
-	return (node);
-    }
-
     function ruleUnary() {
 	var node;
 	var tmp;
