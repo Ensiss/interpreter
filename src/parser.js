@@ -59,11 +59,45 @@ var parser = (function () {
 	    node.children.push({name:_curr.name, val:_curr.val});
 	    shift();
 	    shift();
-	    if (!(tmp = rulePlusMinus()))
+	    if (!(tmp = ruleLOr()))
 		return (false);
 	    node.children.push(tmp);
-	} else if (!(node = rulePlusMinus()))
+	} else if (!(node = ruleLOr()))
 	    return (false);
+	return (node);
+    }
+
+    function ruleLOr() {
+	var node;
+	var parent;
+	var tmp;
+
+	node = ruleLAnd();
+	while (accept("LX_LOR")) {
+	    parent = {name:_curr.name, children:[node]};
+	    shift();
+	    if (!(tmp = ruleLAnd()))
+		return (false);
+	    parent.children.push(tmp);
+	    node = parent;
+	}
+	return (node);
+    }
+
+    function ruleLAnd() {
+	var node;
+	var parent;
+	var tmp;
+
+	node = rulePlusMinus();
+	while (accept("LX_LAND")) {
+	    parent = {name:_curr.name, children:[node]};
+	    shift();
+	    if (!(tmp = rulePlusMinus()))
+		return (false);
+	    parent.children.push(tmp);
+	    node = parent;
+	}
 	return (node);
     }
 

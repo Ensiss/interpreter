@@ -24,7 +24,6 @@ function doTests() {
     test("division operator", "15 / 3;");
     test("modulo operator", "15 % 3;");
     test("power operator", "3 ** 2;", Math.pow(3, 2));
-    test("complex expressions", "1+4/5*4+51+(4*(945+94/748)+44+2)+56;");
     test("operator predecence", "1 + 2 * 5;");
     test("negative numbers", "-5;");
     test("parenthesis", "-(1 + 2) * 5;");
@@ -32,6 +31,18 @@ function doTests() {
     test("blocks", "{1 + 2; 2 * 3;}");
     test("variables", "{a = 5 + 2; a;}");
     test("scopes", "{ {a = 5;} a;}", null);
+
+    test("logical and", "0 && 5;");
+    test("logical and", "5 && 0;");
+    test("logical and", "0 && 0;");
+    test("logical and", "5 && 7;");
+    test("logical or", "0 || 5;");
+    test("logical or", "5 || 0;");
+    test("logical or", "0 || 0;");
+    test("logical or", "5 || 7;");
+
+    test("complex expressions", "1+4/5*4+51+(4*(945+94/748)+44+2)+56;");
+    test("complex logical", "0 || 45-54/9 && 564 + 485 * 4 || 45 / 6;");
 }
 
 doTests();
