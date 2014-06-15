@@ -25,7 +25,7 @@ node test
    - [x] Variables and identifiers
    - [x] Multiple instructions
    - [x] if/else branching
-   - [ ] loops
+   - [x] loops (do..while/while/for)
    - [ ] Custom functions
 
  - [ ] Mathematical expressions

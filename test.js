@@ -62,6 +62,7 @@ function doTests() {
     fail += test("while", "{a = 10; while (a > 20) ++a; a;}");
     fail += test("for", "{a = -10; for (a = 0; a < 10; ++a) 0; a;}");
     fail += test("for scope", "{for (a = 0; a < 20; ++a) 0; a;}", null);
+    fail += test("do while", "{a = 5; do ++a; while (a < 10);}");
 
     console.log("\nLogical operators");
     fail += test("logical and", "0 && 5;");
@@ -103,7 +104,7 @@ function doTests() {
     fail += test("complex expressions", "1+4/5*4+51+(4*(945+94/748)+44+2)+56;");
     fail += test("complex logical", "0 || 45-54/9 && 564 + 485 * 4 || 45 / 6;");
 
-    console.log("\n" + fail + " tests failed.");
+    console.log("\n" + fail + " test" + (fail == 1 ? "" : "s") + " failed.");
 }
 
 doTests();

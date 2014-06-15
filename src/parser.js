@@ -41,7 +41,7 @@ var parser = (function () {
 	    shift();
 	}
 	else
-	    node = ruleIf() || ruleWhile() || ruleFor() || ruleInstruction();
+	    node = ruleIf() || ruleWhile() || ruleDoWhile() || ruleFor() || ruleInstruction();
 	return (node);
     }
 
@@ -70,6 +70,24 @@ var parser = (function () {
 		return (false);
 	    shift();
 	    node.children.push(ruleBlock());
+	}
+	return (node);
+    }
+
+    /* dowhile: "do" block "while" "(" assign ")";
+     */
+    function ruleDoWhile() {
+	var node = false;
+
+	if (accept("LX_DO")) {
+	    node = {name:_curr.name, children:[]};
+	    shift();
+	    node.children.push(ruleBlock());
+	    if (!expect("LX_WHILE") || !shift() || !expect("LX_LPAREN") || !shift())
+		return (false);
+	    node.children.push(ruleAssign());
+	    if (!expect("LX_RPAREN") || !shift() || !expect("LX_SEMICOLON") || !shift())
+		return (false);
 	}
 	return (node);
     }
@@ -260,6 +278,7 @@ var parser = (function () {
 	do
 	    _curr = _lex.shift();
 	while (_curr && _curr.name == "LX_NEWLINE");
+	return (true);
     }
 
     function error(msg) {

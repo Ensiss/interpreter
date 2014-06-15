@@ -69,6 +69,13 @@ var interpreter = (function () {
 			  val = interpretExpr(c[1]);
 		      return (val);
 		  },
+		  LX_DO: function(c) {
+		      var val = null;
+		      do
+			  val = interpretExpr(c[0]);
+		      while (interpretExpr(c[1]))
+		      return (val);
+		  },
 		  LX_FOR: function(c) {
 		      var val = null;
 		      pushScope();
