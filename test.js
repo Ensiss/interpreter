@@ -57,6 +57,10 @@ function doTests() {
     fail += test("success if else", "{a = 5; if(a == 5) a = 6; else a = 7; a;}");
     fail += test("failure if else", "{a = 5; if(a != 5) a = 6; else a = 7; a;}");
 
+    console.log("\nLoops");
+    fail += test("while", "{a = 10; while (a < 20) ++a; a;}");
+    fail += test("while", "{a = 10; while (a > 20) ++a; a;}");
+
     console.log("\nLogical operators");
     fail += test("logical and", "0 && 5;");
     fail += test("logical and", "5 && 0;");

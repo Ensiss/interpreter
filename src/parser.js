@@ -41,11 +41,31 @@ var parser = (function () {
 	    shift();
 	}
 	else
-	    node = ruleIf() || ruleInstruction();
+	    node = ruleIf() || ruleWhile() || ruleInstruction();
 	return (node);
     }
 
-    /* if: "if" "(" assign ")" block
+    /* while: "while" "(" assign ")" block
+     */
+    function ruleWhile() {
+	var node = false;
+
+	if (accept("LX_WHILE")) {
+	    node = {name:_curr.name, children:[]};
+	    shift();
+	    if (!expect("LX_LPAREN"))
+		return (false);
+	    shift();
+	    node.children.push(ruleAssign());
+	    if (!expect("LX_RPAREN"))
+		return (false);
+	    shift();
+	    node.children.push(ruleBlock());
+	}
+	return (node);
+    }
+
+    /* if: "if" "(" assign ")" block ("else" block)?
      */
     function ruleIf() {
 	var node = false;

@@ -5,6 +5,7 @@ var lexeme_list = [
     {name:"LX_IF", rx:'if(?![a-zA-Z0-9_])'},
     {name:"LX_ELSE", rx:'else(?![a-zA-Z0-9_])'},
     {name:"LX_WHILE", rx:'while(?![a-zA-Z0-9_])'},
+    {name:"LX_DO", rx:'do(?![a-zA-Z0-9_])'},
     {name:"LX_FOR", rx:'for(?![a-zA-Z0-9_])'},
     {name:"LX_FUNC", rx:'function(?![a-zA-Z0-9_])'},
     {name:"LX_VAR", rx:'var(?![a-zA-Z0-9_])'},

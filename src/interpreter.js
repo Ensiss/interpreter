@@ -62,6 +62,12 @@ var interpreter = (function () {
 		      if (interpretExpr(c[0]))
 			  return (interpretExpr(c[1]));
 		      return (c.length == 2 ? null : interpretExpr(c[2]));
+		  },
+		  LX_WHILE: function(c) {
+		      var val = null;
+		      while (interpretExpr(c[0]))
+			  val = interpretExpr(c[1]);
+		      return (val);
 		  }
 		 }
 
