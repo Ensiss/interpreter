@@ -32,9 +32,10 @@ function doTests() {
     fail += test("negative numbers", "-5;");
     fail += test("parenthesis", "-(1 + 2) * 5;");
 
-    console.log("\nBlocks and variables");
+    console.log("\nBlocks and functions");
     fail += test("blocks", "{1 + 2; 2 * 3;}");
     fail += test("scopes", "{ {a = 5;} a;}", null);
+    fail += test("functions", "{ square = function(x) { x*x; }; square(5); }", 25);
 
     console.log("\nVariable assignation");
     fail += test("assign", "{a = 5 + 2; a;}");

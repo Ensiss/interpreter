@@ -232,8 +232,11 @@ var parser = (function () {
      */
     function ruleBase() {
 	var node = false;
+	var tmp;
 
-	if (accept("LX_NUMBER")) {
+	if ((tmp = ruleFuncCall()) || (tmp = ruleFunc()))
+	    node = tmp;
+	else if (accept("LX_NUMBER")) {
 	    node = {name:_curr.name, val:parseFloat(_curr.val)};
 	    shift();
 	} else if (accept("LX_ID")) {
@@ -245,7 +248,60 @@ var parser = (function () {
 	    if (expect("LX_RPAREN"))
 		shift();
 	} else
-	    error("Can't make rule \"base\"");
+	    return (false);
+	return (node);
+    }
+
+    /* func: "function" "(" id? (, id)* ")" block
+     */
+    function ruleFunc() {
+	var node = false;
+	var args = {name:"LX_ARGS", children:[]};
+
+	if (accept("LX_FUNC")) {
+	    node = {name:_curr.name, children:[]};
+	    shift();
+	    if (!expect("LX_LPAREN") || !shift())
+		return (false);
+	    if (expect("LX_ID")) {
+		args.children.push({name:_curr.name, val:_curr.val});
+		shift();
+		while (accept("LX_COMMA") && shift()) {
+		    if (!expect("LX_ID"))
+			return (false);
+		    args.children.push({name:_curr.name, val:_curr.val});
+		    shift();
+		}
+	    }
+	    node.children.push(args);
+	    if (!expect("LX_RPAREN") || !shift())
+		return (false);
+	    node.children.push(ruleBlock());
+	}
+	return (node);
+    }
+
+    /* funcCall: id "(" assign? ("," assign ")") ")"
+     */
+    function ruleFuncCall() {
+	var node = null;
+	var tmp;
+
+	if (accept("LX_ID") && _lex[0].name == "LX_LPAREN") {
+	    node = {name:"LX_FUNCALL", children:[{name:_curr.name, val:_curr.val}]};
+	    shift();
+	    shift();
+	    if ((tmp = ruleAssign())) {
+		node.children.push(tmp);
+		while (accept("LX_COMMA") && shift()) {
+		    if (!(tmp = ruleAssign()))
+			return (false);
+		    node.children.push(tmp);
+		}
+	    }
+	    if (!expect("LX_RPAREN") || !shift())
+		return (false);
+	}
 	return (node);
     }
 

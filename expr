@@ -1,6 +1,12 @@
 {
- a = 5;
- do
+    a = 5;
+    do
 	++a;
- while (a < 10);
+    while (a < 10);
+
+    square = function(x) {
+	x * x;
+    };
+
+    square(5);
 }

@@ -57,6 +57,27 @@ var interpreter = (function () {
 		      popScope();
 		      return (val);
 		  },
+		  LX_FUNCALL: function(c) {
+		      var f = getValue(c[0].val);
+		      var val;
+
+		      if (!f || typeof f != "object" || !f.name || f.name != "LX_FUNC") {
+			  console.error("Runtime warning: " + c[0].val + " is not a function");
+			  return (null);
+		      }
+
+		      var args = f.children[0].children;
+		      if (c.length - 1 < args.length)
+			  console.warn("Runtime warning: too few arguments provided to function " + c[0].val);
+		      else if (c.length - 1 > args.length)
+			  console.warn("Runtime warning: too many arguments provided to function " + c[0].val);
+		      pushScope();
+		      for (var i = 0; i < args.length; i++)
+			  _this[args[i].val] = i + 1 < c.length ? interpretExpr(c[i + 1]) : null;
+		      val = interpretExpr(f.children[1]);
+		      popScope();
+		      return (val);
+		  },
 
 		  LX_IF: function(c) {
 		      if (interpretExpr(c[0]))
@@ -98,6 +119,8 @@ var interpreter = (function () {
 	    return (ast.val);
 	if (ast.name == "LX_ID")
 	    return (getValue(ast.val));
+	if (ast.name == "LX_FUNC")
+	    return (ast);
 	if (_funcs[ast.name])
 	    return (_funcs[ast.name](ast.children));
 	return (null);
