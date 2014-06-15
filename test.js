@@ -60,6 +60,8 @@ function doTests() {
     console.log("\nLoops");
     fail += test("while", "{a = 10; while (a < 20) ++a; a;}");
     fail += test("while", "{a = 10; while (a > 20) ++a; a;}");
+    fail += test("for", "{a = -10; for (a = 0; a < 10; ++a) 0; a;}");
+    fail += test("for scope", "{for (a = 0; a < 20; ++a) 0; a;}", null);
 
     console.log("\nLogical operators");
     fail += test("logical and", "0 && 5;");

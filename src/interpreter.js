@@ -68,6 +68,14 @@ var interpreter = (function () {
 		      while (interpretExpr(c[0]))
 			  val = interpretExpr(c[1]);
 		      return (val);
+		  },
+		  LX_FOR: function(c) {
+		      var val = null;
+		      pushScope();
+		      for (interpretExpr(c[0]); interpretExpr(c[1]); interpretExpr(c[2]))
+			  val = interpretExpr(c[3]);
+		      popScope();
+		      return (val);
 		  }
 		 }
 

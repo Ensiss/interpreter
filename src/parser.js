@@ -41,7 +41,36 @@ var parser = (function () {
 	    shift();
 	}
 	else
-	    node = ruleIf() || ruleWhile() || ruleInstruction();
+	    node = ruleIf() || ruleWhile() || ruleFor() || ruleInstruction();
+	return (node);
+    }
+
+    /* for: "for" "(" assign; assign; assign ")" block
+     */
+    function ruleFor() {
+	var node = false;
+	var def = {name:"LX_NUMBER", val:1};
+
+	if (accept("LX_FOR")) {
+	    node = {name:_curr.name, children:[]};
+	    shift();
+	    if (!expect("LX_LPAREN"))
+		return (false);
+	    shift();
+	    node.children.push(ruleAssign() || def);
+	    if (!expect("LX_SEMICOLON"))
+		return (false);
+	    shift();
+	    node.children.push(ruleAssign() || def);
+	    if (!expect("LX_SEMICOLON"))
+		return (false);
+	    shift();
+	    node.children.push(ruleAssign() || def);
+	    if (!expect("LX_RPAREN"))
+		return (false);
+	    shift();
+	    node.children.push(ruleBlock());
+	}
 	return (node);
     }
 
