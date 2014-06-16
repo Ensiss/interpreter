@@ -42,5 +42,5 @@ node test
    - [x] Binary operators
    - [x] Increment and decrement
    - [x] Operation and assignment operators
+   - [x] Math functions call (cos/sin/tan)
    - [ ] Post increment and decrement
-   - [ ] Math functions call

@@ -9,4 +9,5 @@
     };
 
     square(5);
+    cos(PI);
 }

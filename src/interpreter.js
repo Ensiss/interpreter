@@ -61,21 +61,32 @@ var interpreter = (function () {
 		      var f = getValue(c[0].val);
 		      var val;
 
-		      if (!f || typeof f != "object" || !f.name || f.name != "LX_FUNC") {
+		      if (!f || typeof f != "function" && (typeof f != "object" || !f.name || f.name != "LX_FUNC")) {
 			  console.error("Runtime warning: " + c[0].val + " is not a function");
 			  return (null);
 		      }
 
-		      var args = f.children[0].children;
-		      if (c.length - 1 < args.length)
-			  console.warn("Runtime warning: too few arguments provided to function " + c[0].val);
-		      else if (c.length - 1 > args.length)
-			  console.warn("Runtime warning: too many arguments provided to function " + c[0].val);
-		      pushScope();
-		      for (var i = 0; i < args.length; i++)
-			  _this[args[i].val] = i + 1 < c.length ? interpretExpr(c[i + 1]) : null;
-		      val = interpretExpr(f.children[1]);
-		      popScope();
+		      if (typeof f == "object") {
+			  var args = f.children[0].children;
+			  if (c.length - 1 < args.length)
+			      console.warn("Runtime warning: too few arguments provided to function " + c[0].val);
+			  else if (c.length - 1 > args.length)
+			      console.warn("Runtime warning: too many arguments provided to function " + c[0].val);
+			  pushScope();
+			  for (var i = 0; i < args.length; i++)
+			      _this[args[i].val] = i + 1 < c.length ? interpretExpr(c[i + 1]) : null;
+			  val = interpretExpr(f.children[1]);
+			  popScope();
+		      } else {
+			  var args = [];
+			  if (c.length - 1 < f.length)
+			      console.warn("Runtime warning: too few arguments provided to function " + c[0].val);
+			  else if (c.length - 1 > f.length)
+			      console.warn("Runtime warning: too many arguments provided to function " + c[0].val);
+			  for (var i = 0; i < f.length; i++)
+			      args.push(i + 1 < c.length ? interpretExpr(c[i + 1]) : null);
+			  val = f.apply(null, args);
+		      }
 		      return (val);
 		  },
 
@@ -111,6 +122,10 @@ var interpreter = (function () {
 	if (!ast)
 	    return (null);
 	pushScope();
+	_this.cos = Math.cos;
+	_this.sin = Math.sin;
+	_this.tan = Math.tan;
+	_this.PI = Math.PI;
 	return (interpretExpr(ast));
     }
 
