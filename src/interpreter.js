@@ -122,11 +122,27 @@ var interpreter = (function () {
 	if (!ast)
 	    return (null);
 	pushScope();
-	_this.cos = Math.cos;
-	_this.sin = Math.sin;
-	_this.tan = Math.tan;
-	_this.PI = Math.PI;
+	defineMath();
 	return (interpretExpr(ast));
+    }
+
+    function defineMath() {
+	_this.cos = Math.cos;
+	_this.acos = Math.acos;
+	_this.sin = Math.sin;
+	_this.asin = Math.asin;
+	_this.tan = Math.tan;
+	_this.atan = Math.atan;
+	_this.atan2 = Math.atan2;
+	_this.sqrt = Math.sqrt;
+	_this.cbrt = Math.cbrt;
+	_this.exp = Math.exp;
+	_this.log = Math.log;
+	_this.log10 = Math.log10;
+	_this.log2 = Math.log2;
+	_this.random = Math.random;
+	_this.PI = Math.PI;
+	_this.E = Math.E;
     }
 
     function interpretExpr(ast) {
