@@ -236,6 +236,10 @@ var parser = (function () {
 
 	if ((tmp = ruleFuncCall()) || (tmp = ruleFunc()))
 	    node = tmp;
+	else if (accept("LX_STRING")) {
+	    node = {name:_curr.name, val:_curr.val.substr(1, _curr.val.length - 2)};
+	    shift();
+	}
 	else if (accept("LX_NUMBER")) {
 	    node = {name:_curr.name, val:parseFloat(_curr.val)};
 	    shift();

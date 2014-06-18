@@ -146,7 +146,7 @@ var interpreter = (function () {
     }
 
     function interpretExpr(ast) {
-	if (ast.name == "LX_NUMBER")
+	if (["LX_NUMBER", "LX_STRING"].indexOf(ast.name) != -1)
 	    return (ast.val);
 	if (ast.name == "LX_ID")
 	    return (getValue(ast.val));

@@ -8,6 +8,6 @@
 	x * x;
     };
 
-    square(5);
-    cos(PI);
+    x = cos(PI) * -5;
+    x + '² = ' + square(x);
 }
