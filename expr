@@ -9,5 +9,6 @@
     };
 
     x = cos(PI) * -5;
-    x + '² = ' + square(x);
+    cout(x + '² = ' + square(x));
+    0;
 }

@@ -122,11 +122,11 @@ var interpreter = (function () {
 	if (!ast)
 	    return (null);
 	pushScope();
-	defineMath();
+	defineBuiltins();
 	return (interpretExpr(ast));
     }
 
-    function defineMath() {
+    function defineBuiltins() {
 	_this.cos = Math.cos;
 	_this.acos = Math.acos;
 	_this.sin = Math.sin;
@@ -143,6 +143,8 @@ var interpreter = (function () {
 	_this.random = Math.random;
 	_this.PI = Math.PI;
 	_this.E = Math.E;
+	_this.cout = function(x) {process.stdout.write(x);};
+	_this.cerr = function(x) {process.stderr.write(x);};
     }
 
     function interpretExpr(ast) {
