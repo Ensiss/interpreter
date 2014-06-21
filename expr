@@ -1,14 +1,12 @@
-{
-    a = 5;
-    do
-	++a;
-    while (a < 10);
+a = 5;
+do
+    ++a;
+while (a < 10);
 
-    square = function(x) {
-	x * x;
-    };
+square = function(x) {
+    x * x;
+};
 
-    x = cos(PI) * -5;
-    cout(x + '² = ' + square(x));
-    0;
-}
+x = cos(PI) * -5;
+cout(x + '² = ' + square(x));
+0;

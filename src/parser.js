@@ -18,10 +18,14 @@ var parser = (function () {
 		       {lx:"LX_POW", func:ruleUnary}];
 
     function parser(lexemes) {
+	var tmp;
+
 	_err = false;
 	_lex = lexemes;
 	shift();
-	_ast = ruleBlock();
+	_ast = {name:"LX_BLOCK", children:[]};
+	while ((tmp = ruleBlock()))
+	    _ast.children.push(tmp);
 	if (_curr)
 	    error("Unexpected symbol at the end of expression: " + _curr.name);
 	return (_err ? null : _ast);
