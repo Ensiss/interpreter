@@ -18,15 +18,14 @@ node test
 ## Current state of the project
 
  - [ ] General
-   - [x] Instruction on multiple lines
    - [x] Error handling
    - [x] Scopes
    - [x] Code blocks
    - [x] Variables and identifiers
    - [x] Multiple instructions
-   - [x] if/else branching
-   - [x] loops (do..while/while/for)
-   - [ ] Custom functions
+   - [x] If/else branching
+   - [x] Loops (do..while/while/for)
+   - [x] Custom functions
 
  - [ ] Mathematical expressions
    - [x] Base operators (+-*/)
