@@ -39,7 +39,7 @@ var interpreter = (function () {
 		  LX_LSHIFTSET: function(c) { return (setValue(c[0].val, getValue(c[0].val) << interpretExpr(c[1]))); },
 		  LX_RSHIFTSET: function(c) { return (setValue(c[0].val, getValue(c[0].val) >> interpretExpr(c[1]))); },
 
-		  LX_LNOT: function(c) { return (interpretExpr(c[0]) ? 0 : 1); },
+		  LX_LNOT: function(c) { return (0 + !interpretExpr(c[0])); },
 		  LX_LOR: function(c) {
 		      var val = interpretExpr(c[0]);
 		      return (val ? val : interpretExpr(c[1]));
@@ -97,15 +97,19 @@ var interpreter = (function () {
 		  },
 		  LX_WHILE: function(c) {
 		      var val = null;
+		      pushScope();
 		      while (interpretExpr(c[0]))
 			  val = interpretExpr(c[1]);
+		      popScope();
 		      return (val);
 		  },
 		  LX_DO: function(c) {
 		      var val = null;
+		      pushScope();
 		      do
 			  val = interpretExpr(c[0]);
-		      while (interpretExpr(c[1]))
+		      while (interpretExpr(c[1]));
+		      popScope();
 		      return (val);
 		  },
 		  LX_FOR: function(c) {
